@@ -1,7 +1,6 @@
 import { React } from "react";
 import moment from "moment";
 
-
 function SingleTask({ task, deleteTask }) {
     console.log(task);
     const formatted = moment(task.dueDate).format("MMM D, YYYY");
@@ -10,7 +9,7 @@ function SingleTask({ task, deleteTask }) {
         <h4 className="cursive">{task.user}</h4>
         <p>{task.description}</p>
         <p>{formatted}</p>
-        <button name="deleteButton" onClick={(e) => { deleteTask(task) }}>DELETE</button>
+        <button onClick={() => deleteTask(task)}>DELETE</button>
     </>
     )
 }

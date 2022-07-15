@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import SingleTask from "./SingleTask";
 
-function Todos({ tasks, deleteTask }) {
+function Todos({ deleteTask, tasks }) {
     //create local state 
     console.log(tasks);
     const [filter, setFilter] = useState("");
@@ -47,6 +47,7 @@ function Todos({ tasks, deleteTask }) {
                     //sort the tasks by user alphabetically
                     //sort takes in function 
                     //the function should define a sort order and return a value.
+                    // The pattern is almost always a and b because you are comparing things.
                     .sort((a, b) => {
                         if (sort === "dueDate") {
                             if (a.dueDate > b.dueDate) {
@@ -62,7 +63,7 @@ function Todos({ tasks, deleteTask }) {
                     })
                     .map((val, idx) => (
                         <div className="single-task-wrapper basis-33">
-                            <SingleTask task={val} key={idx} />
+                            <SingleTask deleteTask={deleteTask} task={val} key={idx} />
                         </div>
                     ))
                 }
