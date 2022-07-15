@@ -1,10 +1,13 @@
 
 import './App.css';
 import Todos from './Todos';
+import ToDoForm from "./ToDoForm";
 import { useState } from "react";
 
 // Array with prebuilt tasks: dueDate, title, description, name
-let startingTasks = [
+
+function App() {
+  let startingTasks = [
     {
       dueDate: "2022-08-20",
       title: "Build a house",
@@ -36,99 +39,41 @@ let startingTasks = [
       user: "Reginald",
     },
   ];
-
-function App() {
-  //here is where you are storing the input values from the form.
-  //whenever you trigger a rebuild, it starts these off at their initial values.
-  // let dueDate = "";
-  //Getter-Setter pattern
-  // new const for each piece of state.
-  const [dueDate, setDueDate] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [user, setUser] = useState("");
   const [tasksInAppJS, setTasksInAppJS] = useState(startingTasks);
 
-  //function for button click
-
-  function addTodo(e){
-    e.preventDefault();
-    let newTodo = {
-      dueDate: dueDate,
-      title: title,
-      description: description,
-      user: user
-    };
-  //if you are updating objects or arrays, use this pattern:
-  setTasksInAppJS( (curr) => [...curr,newTodo]);
-    //call the function to update the variable.
-  setDueDate("");
-  setTitle("");
-  setDescription("");
-  setUser("");
+  function deleteTask(task) {
+    const updatedList = tasksInAppJS.filter(() => setTasksInAppJS.task !== task);
+    return (
+      setTasksInAppJS((current) => [updatedList])
+    )
   }
+  // e.prevent.default();
+  // e.target.remove();
+  //what is the array(curr) => [update the array to remove the single task];
+  <div className="App">
 
-  return (   
-    <div className="App">
-      <form>
-        <div>
-          <label htmlFor="due-date">Date</label>
-          <input 
-            value = {dueDate}
-            onChange={ (e) => {
-            setDueDate(e.target.value);
-            }} 
-            id="due-date" 
-            type="date" 
-            />
-        </div>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input 
-            value = {title}
-            onChange={ (e) => {  
-            setTitle(e.target.value);
-            }} 
-            id="title" 
-            type="text" 
-            />
-        </div>
-        <div>
-          <label htmlFor="description">Description</label>
-          <input 
-          value = {description}
-          onChange = { (e) => {
-            setDescription(e.target.value);
-          }}
-          id="description" 
-          type="text" />
-        </div>
-        <div>
-          <label htmlFor="user">User</label>
-          <input 
-          value = {user}
-          onChange = { (e) => {
-              setUser(e.target.value);
-          }}
-          id="user" type="text" />
-        </div>
-        <div>
+    <section className="new-task flex center">
+      <h2>Make a New Task</h2>
+    </section>
 
-       <button onClick={addTodo}>SUBMIT</button>
+    <ToDoForm setTasks={setTasksInAppJS} />
 
-        </div>
-      </form>
-     <div>
-          <Todos tasks={tasksInAppJS}/>
-      </div>
-    </div>
-  );
+    <section className="to-dos-section">
+      <Todos deleteTask={deleteTask} tasks={tasksInAppJS} />
+    </section>
+  </div>
+
+
 }
 
 export default App;
+
+
+
 
 {/* //The standard pattern for event listeners.
 //event={ (e) => {} }
 
 //Be careful of one-way binding.
 //value={title} */}
+
