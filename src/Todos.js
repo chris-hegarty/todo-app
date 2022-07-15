@@ -3,39 +3,38 @@ import SingleTask from "./SingleTask";
 
 function Todos({ deleteTask, tasks }) {
     //create local state 
-    console.log(tasks);
     const [filter, setFilter] = useState("");
     const [sort, setSort] = useState("none");
-
 
     function clearFilter() {
         setFilter("");
         setSort("none");
     }
     return (
-        <><div class="sorting flex center">
-            <div>
-                <label htmlFor="filter-by">FILTER</label>
-                <input onChange={(e) => setFilter(e.target.value)} type="text" name="filterby" id="filter-by" value={filter} />
-            </div>
+        <>
+            <div className="sorting flex center">
+                <div>
+                    <label htmlFor="filter-by">FILTER</label>
+                    <input onChange={(e) => setFilter(e.target.value)} type="text" name="filterby" id="filter-by" value={filter} />
+                </div>
 
-            <div>
-                <label htmlFor="sort-by">SORT</label>
-                <select
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value)} name="sort-dropdown" id="sort-by">
-                    <option value="none">None</option>
-                    <option value="user">User</option>
-                    <option value="dueDate">Due Date</option>
-                </select>
+                <div>
+                    <label htmlFor="sort-by">SORT</label>
+                    <select
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)} name="sort-dropdown" id="sort-by">
+                        <option value="none">None</option>
+                        <option value="user">User</option>
+                        <option value="dueDate">Due Date</option>
+                    </select>
+                </div>
+                <div>
+                    <button onClick={(clearFilter)}>Clear Options</button>
+                </div>
             </div>
-            <div>
-                <button onClick={(clearFilter)}>Clear Options</button>
-            </div>
-        </div><section className="tasks-section flex flex-wrap">
+            <section className="tasks-section flex flex-wrap">
 
                 {tasks
-
                     //write a function that checks each task against the words provided in the input.
                     .filter((t) => {
                         return (
@@ -49,26 +48,34 @@ function Todos({ deleteTask, tasks }) {
                     //the function should define a sort order and return a value.
                     // The pattern is almost always a and b because you are comparing things.
                     .sort((a, b) => {
-                        if (sort === "dueDate") {
-                            if (a.dueDate > b.dueDate) {
-                                return 1
-                            } else if (a.dueDate < b.dueDate) {
-                                return -1
+                        if (sort === "user") {
+                            if (a.user.toLowerCase() > b.user.toLowerCase()) {
+                                return 1;
+                            } else if (a.user.toLowerCase() < b.user.toLowerCase()) {
+                                return -1;
                             } else {
-                                return 0
+                                return 0;
+                            }
+                        } else if (sort === "dueDate") {
+                            if (a.dueDate > b.dueDate) {
+                                return 1;
+                            } else if (a.dueDate < b.dueDate) {
+                                return -1;
+                            } else {
+                                return 0;
                             }
                         } else {
                             return 0;
                         }
                     })
                     .map((val, idx) => (
-                        <div className="single-task-wrapper basis-33">
+                        <div className="single-task-wrapper basis-33" key={idx}>
                             <SingleTask deleteTask={deleteTask} task={val} key={idx} />
                         </div>
                     ))
                 }
-
-            </section></>
+            </section>
+        </>
     )
 }
 

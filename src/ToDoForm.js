@@ -1,11 +1,7 @@
 import { React } from "react";
 import { useState } from "react";
 
-
-
 function ToDoForm({ setTasks }) {
-
-
   //here is where you are storing the input values from the .
   //whenever you trigger a rebuild, it starts these off at their initial values.
   // let dueDate = "";
@@ -16,9 +12,8 @@ function ToDoForm({ setTasks }) {
   const [description, setDescription] = useState("");
   const [user, setUser] = useState("");
 
-
-  //function for button click
-
+  //function for adding a task.
+  //We'll call this directly on the button click event:
   function addTodo(e) {
     e.preventDefault();
     let newTodo = {
@@ -28,6 +23,8 @@ function ToDoForm({ setTasks }) {
       user: user
     };
     //if you are updating objects or arrays, use this pattern:
+    //Can also do something like:
+    //setTasksInAppJS((curr) => curr.filter((val) => val !== task));
     setTasks((curr) => [...curr, newTodo]);
 
     //call the function to update the variable.

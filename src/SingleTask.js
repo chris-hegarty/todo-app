@@ -2,7 +2,6 @@ import { React } from "react";
 import moment from "moment";
 
 function SingleTask({ task, deleteTask }) {
-    console.log(task);
     const formatted = moment(task.dueDate).format("MMM D, YYYY");
     return (<>
         <h3 className="cursive underline">{task.title}</h3>
