@@ -1,8 +1,10 @@
 
 import './App.css';
 import Todos from './Todos';
-import ToDoForm from "./ToDoForm";
-import { useState } from "react";
+import ToDoForm from './ToDoForm';
+import SingleTask from './SingleTask';
+import { useContext, useEffect, useState } from "react";
+import { TaskContext } from './TaskContext';
 
 // Array with prebuilt tasks: dueDate, title, description, name
 function App() {
@@ -39,23 +41,79 @@ function App() {
     },
   ];
   // Set your piece of state to watch the array:
-  const [tasksInAppJS, setTasksInAppJS] = useState(startingTasks);
+  const [tasksInAppJS, setTasksInAppJS] = useState([]);
+  const [status, setStatus] = useState();
+  //Set state for timer
+  const [timer, setTimer] = useState(0);
+  const { tasks, deleteTask } = useContext(TaskContext)
+  //Set Use Effect for Timer:
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setTimer(curr => curr + 1);
+    }, 1000)
+    //this function will run 
+    return () => clearInterval(interval)
+  })
+  //! Set up a piece of state to track newest todo
+  // You can leave the array blank becasue there IS NO NEWEST TASK YET.
+  // OR...put a null to remind you that you left it blank.
+  const [newestTask, setNewestTask] = useState(null);
+  //! Set up a useEffect to run when tasksInAppJS changes
+  useEffect(() => {
+    setNewestTask(tasksInAppJS[tasksInAppJS.length - 1])
+  }, [tasksInAppJS])
+  //the parameter is when do I want something to run, what to watch...the array tasksInAppJS.
+  //New piece of state for total characters:
 
   //pattern for removing from an array in state using .filter:
-  function deleteTask(task) {
-    setTasksInAppJS((curr) => curr.filter((val) => val !== task));
-  }
+  // This is moved to TaskContext.js
+  // function deleteTask(task) {
+  //   setTasksInAppJS((curr) => curr.filter((val) => val !== task));
+  // }
+
+  // Trying to get radio buttons to work:
+  // const handleChange = (e) => {
+  //   setStatus(e.target.value)
+  // }
+
+  //This is moved to TaskContext.js
+  // function markStatus(task) {
+  //   setTasksInAppJS((curr) =>
+  //     curr.map((t) => {
+  //       if (t === status) {
+  //         // return { ...t, completed: !task.completed }
+  //       }
+  //     }
+  //     )
+  //   )
+  // }
 
   return (
     <div className="App">
       <section className="new-task flex center">
+        <h4>Time on Page:{timer} </h4>
+        <h2>Most recently added:</h2>
+        {/*Newest task is set to null up in useState  */}
+        {!newestTask && <p>There isn't one</p>}
+        {newestTask && <div>
+          <SingleTask
+            status={status}
+            setStatus={setStatus}
+            deleteTask={deleteTask}
+            task={newestTask} />
+        </div>}
+
+        {/* If newest is undefined show na 
+        if there is a newest task...render tododisplay component
+        build a useEffect */}
+
         <h2>Make a New Task</h2>
       </section>
 
-      <ToDoForm setTasks={setTasksInAppJS} />
+      <ToDoForm />
 
       <section className="to-dos-section">
-        <Todos deleteTask={deleteTask} tasks={tasksInAppJS} />
+        <Todos />
       </section>
     </div>
 

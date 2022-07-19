@@ -1,7 +1,8 @@
-import { React } from "react";
-import { useState } from "react";
+import { React, useContext } from "react";
+import { useState, useEffect } from "react";
+import { TaskContext } from "./TaskContext";
 
-function ToDoForm({ setTasks }) {
+function ToDoForm() {
   //here is where you are storing the input values from the .
   //whenever you trigger a rebuild, it starts these off at their initial values.
   // let dueDate = "";
@@ -12,6 +13,14 @@ function ToDoForm({ setTasks }) {
   const [description, setDescription] = useState("");
   const [user, setUser] = useState("");
 
+  const { tasks, setTasks, markTask, deleteTask } = useContext(TaskContext);
+
+  //Pattern for useEffect on multiple pieces of state.
+  const [charCount, setCharCount] = useState(0)
+  useEffect(() => {
+    setCharCount(title.length + description.length + user.length)
+  }, [title, description, user])
+
   //function for adding a task.
   //We'll call this directly on the button click event:
   function addTodo(e) {
@@ -20,7 +29,8 @@ function ToDoForm({ setTasks }) {
       dueDate: dueDate,
       title: title,
       description: description,
-      user: user
+      user: user,
+
     };
     //if you are updating objects or arrays, use this pattern:
     //Can also do something like:
@@ -33,13 +43,14 @@ function ToDoForm({ setTasks }) {
     setDescription("");
     setUser("");
 
+
   }
 
   return (
     <div>
       <form>
-        <label htmlFor="due-date">Date</label>
         <div>
+          <label htmlFor="due-date">Date</label>
           <input
             value={dueDate}
             onChange={(e) => {
@@ -78,6 +89,9 @@ function ToDoForm({ setTasks }) {
               setUser(e.target.value);
             }}
             id="user" type="text" />
+        </div>
+        <div>
+          <p>Total characters: {charCount}</p>
         </div>
         <button onClick={addTodo}>
           ADD NEW TASK

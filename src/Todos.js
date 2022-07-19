@@ -1,10 +1,13 @@
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
+import { TaskContext } from './TaskContext';
 import SingleTask from "./SingleTask";
 
-function Todos({ deleteTask, tasks }) {
+
+function Todos() {
     //create local state 
     const [filter, setFilter] = useState("");
     const [sort, setSort] = useState("none");
+    const { tasks, deleteTask, markTask, setTask } = useContext(TaskContext)
 
     function clearFilter() {
         setFilter("");
@@ -70,7 +73,7 @@ function Todos({ deleteTask, tasks }) {
                     })
                     .map((val, idx) => (
                         <div className="single-task-wrapper basis-33" key={idx}>
-                            <SingleTask deleteTask={deleteTask} task={val} key={idx} />
+                            <SingleTask task={val} key={idx} />
                         </div>
                     ))
                 }
