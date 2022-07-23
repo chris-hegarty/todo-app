@@ -1,7 +1,7 @@
 import { React } from "react";
 import moment from "moment";
 
-function SingleTask({ task, deleteTask, markStatus }) {
+function SingleTask({ task, deleteTask }) {
     const formatted = moment(task.dueDate).format("MMM D, YYYY");
 
     return (<>

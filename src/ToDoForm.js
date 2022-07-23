@@ -12,8 +12,7 @@ function ToDoForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [user, setUser] = useState("");
-
-  const { tasks, setTasks, markTask, deleteTask } = useContext(TaskContext);
+  const [tasks, setTasks] = useContext(TaskContext)
 
   //Pattern for useEffect on multiple pieces of state.
   const [charCount, setCharCount] = useState(0)
@@ -30,7 +29,6 @@ function ToDoForm() {
       title: title,
       description: description,
       user: user,
-
     };
     //if you are updating objects or arrays, use this pattern:
     //Can also do something like:
@@ -42,7 +40,6 @@ function ToDoForm() {
     setTitle("");
     setDescription("");
     setUser("");
-
 
   }
 

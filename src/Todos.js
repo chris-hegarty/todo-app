@@ -7,7 +7,7 @@ function Todos() {
     //create local state 
     const [filter, setFilter] = useState("");
     const [sort, setSort] = useState("none");
-    const { tasks, deleteTask, markTask, setTask } = useContext(TaskContext)
+    const { tasks, deleteTask } = useContext(TaskContext)
 
     function clearFilter() {
         setFilter("");
@@ -73,7 +73,10 @@ function Todos() {
                     })
                     .map((val, idx) => (
                         <div className="single-task-wrapper basis-33" key={idx}>
-                            <SingleTask task={val} key={idx} />
+                            <SingleTask
+                                deleteTask={deleteTask}
+                                task={val}
+                                key={idx} />
                         </div>
                     ))
                 }

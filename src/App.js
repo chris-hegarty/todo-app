@@ -6,46 +6,47 @@ import SingleTask from './SingleTask';
 import { useContext, useEffect, useState } from "react";
 import { TaskContext } from './TaskContext';
 
-// Array with prebuilt tasks: dueDate, title, description, name
+
 function App() {
-  let startingTasks = [
-    {
-      dueDate: "2022-08-20",
-      title: "Build a house",
-      description: "Building things",
-      user: "Hortense",
-    },
-    {
-      dueDate: "2022-08-15",
-      title: "Feed the crows",
-      description: "Need to go buy feed and use it",
-      user: "Xavier",
-    },
-    {
-      dueDate: "2022-07-30",
-      title: "Buy Groceries",
-      description: "Too much food needed",
-      user: "Oslo",
-    },
-    {
-      dueDate: "2022-10-31",
-      title: "Run errands",
-      description: "So many errands",
-      user: "Chloe",
-    },
-    {
-      dueDate: "2022-12-24",
-      title: "Meet family",
-      description: "Family time",
-      user: "Reginald",
-    },
-  ];
-  // Set your piece of state to watch the array:
-  const [tasksInAppJS, setTasksInAppJS] = useState([]);
-  const [status, setStatus] = useState();
+  // Array with prebuilt tasks: dueDate, title, description, name. Commented out for now.
+
+  // let startingTasks = [
+  //   {
+  //     dueDate: "2022-08-20",
+  //     title: "Build a house",
+  //     description: "Building things",
+  //     user: "Hortense",
+  //   },
+  //   {
+  //     dueDate: "2022-08-15",
+  //     title: "Feed the crows",
+  //     description: "Need to go buy feed and use it",
+  //     user: "Xavier",
+  //   },
+  //   {
+  //     dueDate: "2022-07-30",
+  //     title: "Buy Groceries",
+  //     description: "Too much food needed",
+  //     user: "Oslo",
+  //   },
+  //   {
+  //     dueDate: "2022-10-31",
+  //     title: "Run errands",
+  //     description: "So many errands",
+  //     user: "Chloe",
+  //   },
+  //   {
+  //     dueDate: "2022-12-24",
+  //     title: "Meet family",
+  //     description: "Family time",
+  //     user: "Reginald",
+  //   },
+  // ];
+  const tasks = useContext(TaskContext)
+  const deleteTask = useContext(TaskContext);
   //Set state for timer
   const [timer, setTimer] = useState(0);
-  const { tasks, deleteTask } = useContext(TaskContext)
+
   //Set Use Effect for Timer:
   useEffect(() => {
     let interval = setInterval(() => {
@@ -58,10 +59,11 @@ function App() {
   // You can leave the array blank becasue there IS NO NEWEST TASK YET.
   // OR...put a null to remind you that you left it blank.
   const [newestTask, setNewestTask] = useState(null);
+
   //! Set up a useEffect to run when tasksInAppJS changes
   useEffect(() => {
-    setNewestTask(tasksInAppJS[tasksInAppJS.length - 1])
-  }, [tasksInAppJS])
+    setNewestTask(tasks[tasks.length - 1])
+  }, [tasks])
   //the parameter is when do I want something to run, what to watch...the array tasksInAppJS.
   //New piece of state for total characters:
 
@@ -69,11 +71,6 @@ function App() {
   // This is moved to TaskContext.js
   // function deleteTask(task) {
   //   setTasksInAppJS((curr) => curr.filter((val) => val !== task));
-  // }
-
-  // Trying to get radio buttons to work:
-  // const handleChange = (e) => {
-  //   setStatus(e.target.value)
   // }
 
   //This is moved to TaskContext.js
@@ -97,8 +94,6 @@ function App() {
         {!newestTask && <p>There isn't one</p>}
         {newestTask && <div>
           <SingleTask
-            status={status}
-            setStatus={setStatus}
             deleteTask={deleteTask}
             task={newestTask} />
         </div>}
